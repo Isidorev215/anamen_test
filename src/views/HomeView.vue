@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <Pagination :total="jokes?.result.length" :perPage="perpage" :currentPage="currentLimitPosition" @pagechanged="onPageChanged" />
+    <Pagination :total="jokes?.result.length" :perPage="perPage" :currentPage="currentPage" @pagechanged="onPageChanged" />
   </div>
 </template>
 
@@ -23,8 +23,8 @@ import Pagination from "../components/Pagination.vue";
 import getDataObject from "../composables/getDataObject";
 import { computed, ref, watch } from "@vue/runtime-core";
 
-const currentLimitPosition = ref(1);
-const perpage = 50;
+const currentPage = ref(1);
+const perPage = 50;
 const currentJokes = ref([]);
 
 const { isPending, error, data: jokes } = getDataObject("https://api.chucknorris.io/jokes/search?query=all");
@@ -39,20 +39,20 @@ const sortedArray = computed(() => {
   });
 });
 
-const limitJokes = (position) => {
-  let pos = position - 1;
-  return sortedArray.value.splice(pos, perpage);
+const limitJokes = (page) => {
+  let pos = (page - 1) * perPage;
+  return sortedArray.value.splice(pos, perPage);
 };
 
 watch(jokes, () => {
   if (jokes.value !== null) {
-    currentJokes.value = limitJokes(currentLimitPosition.value);
+    currentJokes.value = limitJokes(currentPage.value);
   }
 });
 
 const onPageChanged = (page) => {
-  currentLimitPosition.value = page;
-  currentJokes.value = limitJokes(currentLimitPosition.value);
+  currentPage.value = page;
+  currentJokes.value = limitJokes(currentPage.value);
 };
 </script>
 
