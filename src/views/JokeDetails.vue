@@ -48,13 +48,18 @@ import IconThumbDown from '../components/icons/IconThumbDown.vue'
 import IconThumbUp from '../components/icons/IconThumbUp.vue'
 import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
 import IconChevronRight from '../components/icons/IconChevronRight.vue'
-import { useRoute } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import getDataObject from '../composables/getDataObject';
+import { onMounted, ref } from '@vue/runtime-core';
 
   const route = useRoute();
+  const url = ref(`https://api.chucknorris.io/jokes/${route.params.id}`);
 
-  const { isPending, error, data: joke, load: getJoke } = getDataObject(`https://api.chucknorris.io/jokes/${route.params.id}`)
-  getJoke();
+  const { isPending, error, data: joke } = getDataObject(url);
+
+  onBeforeRouteUpdate((to, from) => {
+    url.value = `https://api.chucknorris.io/jokes/${to.params.id}`;
+  })
 
 </script>
 

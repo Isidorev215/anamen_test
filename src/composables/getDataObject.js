@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ref } from "vue";
+import { isRef, ref, unref, watchEffect } from "vue";
 
 const getDataObject = (url) => {
   const data = ref(null);
@@ -10,7 +10,7 @@ const getDataObject = (url) => {
 
     isPending.value = true;
     try {
-      let res = await axios.get(url)
+      let res = await axios.get(unref(url))
       data.value = res.data;
       error.value = null;
       isPending.value = false;
@@ -19,8 +19,13 @@ const getDataObject = (url) => {
       isPending.value = false;
     }
   }
+  if(isRef(url)){
+    watchEffect(load)
+  }else{
+    load()
+  }
 
-  return { data, error, isPending, load }
+  return { data, error, isPending }
 }
 
 export default getDataObject;

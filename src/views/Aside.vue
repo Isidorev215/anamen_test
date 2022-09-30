@@ -13,8 +13,7 @@
 import getDataObject from '../composables/getDataObject';
 import { computed } from '@vue/runtime-core';
 
-const { isPending, error, data: jokes, load: getAllJokes } = getDataObject('https://api.chucknorris.io/jokes/search?query=all')
-getAllJokes();
+const { isPending, error, data: jokes } = getDataObject('https://api.chucknorris.io/jokes/search?query=all');
 
 const limitedJokes = computed(() => {
   return jokes.value.result.splice(0, 10)
