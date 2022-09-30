@@ -4,7 +4,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "preview": "vite preview --port 4173",
+    "git": "git add . && git commit -m",
+    "postgit": "run-s deploy:github deploy:dist",
+    "deploy:github": "git push origin master",
+    "deploy:dist": "sh deploy.sh"
   },
   "dependencies": {
     "@vueuse/core": "^9.3.0",
@@ -15,6 +19,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.3",
+    "npm-run-all": "^4.1.5",
     "sass": "^1.55.0",
     "vite": "^3.0.9"
   }
