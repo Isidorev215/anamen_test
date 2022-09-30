@@ -102,6 +102,9 @@ nav {
     border-bottom: none;
     color: var(--vt-c-brown);
   }
+  &:hover{
+    color: var(--vt-c-gray);
+  }
 }
 .links {
   display: inline-block;
